@@ -1,21 +1,29 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "./components/Header";
 
-import info from './services/getInfo';
+import getInfo from './services/getInfo';
 
+const App = () => {
+  const [rels, setRels] = React.useState('loading...'); // [getter, setter]
 
+  // const carregaRels = () => getInfo()
+  //   .then((dados) => setRels(JSON.stringify(dados)));
 
-async function getInfo() {
-  await info;
-  info.then(val => console.log(val));
+  React.useEffect(() => {
+    loadInfo()
+  }, []);
+
+  const loadInfo = async () => {
+    const dados = await getInfo();
+    setRels(JSON.stringify(dados));
+  }
+
+  return (
+    <div className="App">
+      <Header/>
+      <p>{rels}</p>
+    </div>
+  );
 }
-
-getInfo();
-
-const App = () => (
-  <div className="App">
-    <Header/>
-  </div>
-);
 
 export default App;
